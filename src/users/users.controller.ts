@@ -10,9 +10,11 @@ import { Request } from 'express';
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
-@Get()
-  me(): string {
-    return 'Return current user';
+
+@UseGuards(AuthGuard('jwt'))
+@Get('me')
+ async me(@Req() request: Request): Promise<User> {
+        return await this.usersService.getUser(request.user);
   }
 
 @Post('signup')

@@ -22,8 +22,7 @@ export class PassportJwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload) {
     const user = await this.userModel.findOne({email: payload.email});
     if (user) {
-      delete user.password;
-      return user; //Add what u want to be returned in ny request user.id for exple
+      return user._id; //Add what u want to be returned in ny request user.id for exple
     } else {
       throw new UnauthorizedException();
     }

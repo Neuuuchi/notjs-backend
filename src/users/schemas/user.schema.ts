@@ -8,8 +8,8 @@ export class User {
   @Prop({ required : true })
   name: string;
 
-  @Prop({ type: Number, min: 18, max: 65 })
-  age: number;
+  @Prop({ required : true})
+  role: string;
 
   @Prop({ required : true })
   email: string;

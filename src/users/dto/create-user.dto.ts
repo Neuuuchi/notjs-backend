@@ -4,8 +4,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly name: string;
   @IsNotEmpty()
-  @IsPositive()
-  readonly age: number;
+  readonly role: number;
   @IsNotEmpty()
   @IsEmail()
   readonly email: string;
