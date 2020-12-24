@@ -5,7 +5,8 @@ import { User, UserSchema } from './schemas/user.schema';
 import { UsersModule } from './users.module';
 import { UserLoginDto } from './dto/user-login.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { request, Request } from 'express';
+import { strict } from 'assert';
 
 @Controller('users')
 export class UsersController {
@@ -14,9 +15,10 @@ export class UsersController {
 @UseGuards(AuthGuard('jwt'))
 @Get('me')
  async me(@Req() request: Request): Promise<User> {
-        return await this.usersService.getUser(request.user);
+    return await this.usersService.getUser(request.user);
   }
 
+// Create
 @Post('signup')
 async register(@Body() createUserDto: CreateUserDto): Promise<string> {
     var result = await this.usersService.create(createUserDto);
@@ -38,14 +40,41 @@ async login(@Body() loginDto: UserLoginDto): Promise<any> {
     getAll(): Promise<User[]> {
     return this.usersService.getAll();
 }
-@Put()
-    update(): string {
-    return 'get user info';
+
+// Update
+/*
+* updates occur only in the following order:
+email -> name -> role.
+*/
+@UseGuards(AuthGuard('jwt'))
+@Put('update')
+async update(@Req() request: Request): Promise<string> {
+    var userName = request.body.name ;
+    var userEmail = request.body.email ;
+    var userRole = request.body.role;
+    var userId = request.user;
+    var payload = {}
+    
+    if(userEmail != undefined){
+        payload["email"] = userEmail;
+    }
+    if(userName != undefined){
+        payload["name"] = userName;
+    }
+    if(userRole != undefined){
+        payload["role"] = userRole;
+    }
+    return this.usersService.updateUser(userId, payload);
 }
-@Delete()
-    delete(): string {
-    return 'remove';
+
+// Remove
+@UseGuards(AuthGuard('jwt'))
+@Delete('delete')
+    async delete(@Req() request: Request): Promise<string> {
+        var userId = request.user;
+        return this.usersService.removeUser(userId);
 }
+
 @Post()
     import(): String {
         return 'import users from xmls';

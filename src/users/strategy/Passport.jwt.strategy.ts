@@ -27,4 +27,14 @@ export class PassportJwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
   }
+  /*
+  async fetchUserFromToken(payload){
+    const user = await this.userModel.findOne({email: payload.email});
+    if (user) {
+      return user; 
+    } else {
+      throw new UnauthorizedException();
+    }
+  }*/
+
 }
