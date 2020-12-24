@@ -26,8 +26,8 @@ export class UsersService {
     return this.userModel.find().exec();
   }
   
-  async getUser(userId: any): Promise<User> {
-    return await this.userModel.findOne({_id: userId}).exec();
+  async getUser(userId: any): Promise<User> { 
+    return this.userModel.findById({_id: userId});
   }
 
   async userLogin(loginDto: UserLoginDto): Promise<any> {
@@ -50,7 +50,7 @@ export class UsersService {
 
   async removeUser(userId: any): Promise<string>{
     
-    var user = this.getUser(userId);
+    var user = await this.userModel.findById(userId);
     var name = ""
     try{
       name = (await user).name
@@ -66,13 +66,17 @@ export class UsersService {
   }
 
 
-  async updateUser(userId: any, payload: any): Promise<string>{
-    //var user = this.getUser(userId);
-    const filter = {_id: userId}
-    let user = await this.userModel.findOneAndUpdate(filter, payload, {new:false})
-
-    if(user) return "Updated user name successfully.";
-    //else
+  async updateUser(userId: any, body: any): Promise<string>{
+    //var user : User = await this.getUser(userId);
+    let user = await this.userModel.findById(userId);
+    const filter = {_id: userId};
+    
+    user.name = body.name  ? body.name : user.name ;
+    user.email = body.email ? body.email : user.name ;
+    user.role = body.role ? body.role : user.name ;
+    await user.save();
+    
+    if(user) return "User updated successfully.";
       throw new NotFoundException("User not found");
     
   }

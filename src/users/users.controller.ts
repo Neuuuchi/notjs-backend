@@ -49,12 +49,9 @@ email -> name -> role.
 @UseGuards(AuthGuard('jwt'))
 @Put('update')
 async update(@Req() request: Request): Promise<string> {
-    var userName = request.body.name ;
-    var userEmail = request.body.email ;
-    var userRole = request.body.role;
     var userId = request.user;
     var payload = {}
-    
+    /*
     if(userEmail != undefined){
         payload["email"] = userEmail;
     }
@@ -63,8 +60,8 @@ async update(@Req() request: Request): Promise<string> {
     }
     if(userRole != undefined){
         payload["role"] = userRole;
-    }
-    return this.usersService.updateUser(userId, payload);
+    }*/
+    return this.usersService.updateUser(userId, request.body);
 }
 
 // Remove
