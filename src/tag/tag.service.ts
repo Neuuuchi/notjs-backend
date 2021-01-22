@@ -24,6 +24,4 @@ export class TagService {
     const result = this.TagModel.findById(id).exec();
     return result;
   }
-
-  
 }

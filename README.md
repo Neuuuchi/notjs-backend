@@ -153,31 +153,7 @@ GET /pfe-session
 
 ### 
 
-### Add Tag to PFE
-
-end point 
-
-```http
-GET /pfe/:pfe_id/tag/:tag_id
-```
-
- Response example
-
-
-```json
-{
-    "status": 0,
-    "tags": [
-        "600b2a97a3a19ae36d373f01"
-    ],
-    "_id": "600b26f04314b5e1bc0c773a",
-    "student": "5fe500a29998225f224d9d96",
-    "session": "600b1d088acf98de11babb5d",
-    "__v": 1
-}
-```
-
-### Tags
+# Tags
 
 ### Create Tag
 
@@ -278,11 +254,31 @@ GET /pfe
 ]
 ```
 
+### Add Tag to PFE
+
+end point 
+
+```http
+GET /pfe/:pfe_id/tag/:tag_id
+```
+
+ Response example
+
+
+```json
+{
+    "status": 0,
+    "tags": [
+        "600b2a97a3a19ae36d373f01"
+    ],
+    "_id": "600b26f04314b5e1bc0c773a",
+    "student": "5fe500a29998225f224d9d96",
+    "session": "600b1d088acf98de11babb5d",
+    "__v": 1
+}
+```
+
 ### 
-
-
-
-
 
 ------
 
