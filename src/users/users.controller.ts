@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User, UserSchema } from './schemas/user.schema';
@@ -10,47 +19,45 @@ import { strict } from 'assert';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
-@UseGuards(AuthGuard('jwt'))
-@Get('me')
- async me(@Req() request: Request): Promise<User> {
-    return await this.usersService.getUser(request.user);
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  async me(@Req() request: Request): Promise<User> {
+    return await this.usersService.find(request.user);
   }
 
-// Create
-@Post('signup')
-async register(@Body() createUserDto: CreateUserDto): Promise<string> {
-    var result = await this.usersService.create(createUserDto);
+  // Create
+  @Post('signup')
+  async register(@Body() createUserDto: CreateUserDto): Promise<string> {
+    const result = await this.usersService.create(createUserDto);
     return result.name + ' created';
-}
-@Post('login')
-async login(@Body() loginDto: UserLoginDto): Promise<any> {
-
+  }
+  @Post('login')
+  async login(@Body() loginDto: UserLoginDto): Promise<any> {
     return await this.usersService.userLogin(loginDto);
-}
+  }
 
-@UseGuards(AuthGuard('jwt')) // To add guard on the token
-@Get('testauth')
-    get(@Req() request: Request
-): string {
-    return request.body.test ;
-}
-@Get('test')
-    getAll(): Promise<User[]> {
+  @UseGuards(AuthGuard('jwt')) // To add guard on the token
+  @Get('testauth')
+  get(@Req() request: Request): string {
+    return request.body.test;
+  }
+  @Get('')
+  getAll(): Promise<User[]> {
     return this.usersService.getAll();
-}
+  }
 
-// Update
-/*
+  // Update
+  /*
 * updates occur only in the following order:
 email -> name -> role.
 */
-@UseGuards(AuthGuard('jwt'))
-@Put('update')
-async update(@Req() request: Request): Promise<string> {
-    var userId = request.user;
-    var payload = {}
+  @UseGuards(AuthGuard('jwt'))
+  @Put('update')
+  async update(@Req() request): Promise<string> {
+    const userId = request.user;
+    const payload = {};
     /*
     if(userEmail != undefined){
         payload["email"] = userEmail;
@@ -62,22 +69,18 @@ async update(@Req() request: Request): Promise<string> {
         payload["role"] = userRole;
     }*/
     return this.usersService.updateUser(userId, request.body);
-}
+  }
 
-// Remove
-@UseGuards(AuthGuard('jwt'))
-@Delete('delete')
-    async delete(@Req() request: Request): Promise<string> {
-        var userId = request.user;
-        return this.usersService.removeUser(userId);
-}
+  // Remove
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('delete')
+  async delete(@Req() request): Promise<string> {
+    const userId = request.user;
+    return this.usersService.removeUser(userId);
+  }
 
-@Post()
-    import(): String {
-        return 'import users from xmls';
-    }
-@Get()
-    export(): String {
-        return 'import users from xmls';
-    }
+  @Post('import')
+  import(): string {
+    return 'import users from xmls';
+  }
 }
