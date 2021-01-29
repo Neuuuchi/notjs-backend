@@ -311,11 +311,15 @@ return a list of the reservations made by the current user.
 POST reservations
 ```
 expected body of json request:
+```
+json
 {
     "duration": 30,
     "date": "2009-11-11T09:39:00.000+00:00",
     "subject": "600b26f04314b5e1bc0c773a"
 }
+```
+
 The user sending the request will be added to the reservation.
 return:
 "date reserved for duration for user"
@@ -329,13 +333,15 @@ or
 PUT reservations
 ```
 expected body of json request:
+```
+json
 {
     "_id": "6012e1fb6f244e4901d15032", // mandatory
     "duration": 30, // optional
     "date": "2009-11-11T09:39:00.000+00:00", // optional
     "subject": "600b26f04314b5e1bc0c773a" // optional
 }
-
+```
 return:
  "Success"
  or
@@ -347,9 +353,13 @@ return:
 DELETE reservations
 ```
 expected body of json request:
+```
+json
 {
  "_id": "6012e1fb6f244e4901d15032"
 }
+```
+
 The user must own the reservations to be delete.
 ------------------
 # Get all reservations before / after a certain date:
@@ -357,11 +367,14 @@ The user must own the reservations to be delete.
 http
 GET reservations/date
 ```
+
+```
+json
 {
  "before": "2018-11-11T00:00:00.000Z",
  "after": "2020-11-11T00:00:00.000Z"
 }
-
+```
 
 return :
 list of all reservations between those dates.
