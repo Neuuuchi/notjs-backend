@@ -1,6 +1,8 @@
 import { Controller, Get,Post,Put,Delete, Body, Req, UseGuards, Param } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import {UpdateReservationDto} from './dto/update-reservation.dto';
+import {DateDto} from './dto/date.dto';
+
 import {ReservationsService} from './reservations.service'
 import { Request } from 'express';
 import { Schema as MongooseSchema } from 'mongoose';
@@ -31,10 +33,12 @@ async create(@Body() createDto: CreateReservationDto, @Req() request: Request): 
     }
     return "A reservation was already made for this date" ;
 }
-@Get('date')
-    get(): string {
-    return 'get Reservation';
+
+@Get('/date')
+    get_date(@Body() date: DateDto): Promise<any> {
+    return this.reservationsService.findAllFromDate(date.before, date.after);
 }
+
 @Get('all')
     async getAll(): Promise<any> {
     return this.reservationsService.findAll();

@@ -31,6 +31,15 @@ export class ReservationsService {
       return -1;
     }
 
+    async findAllFromDate(before: Date,after: Date): Promise<any>{
+      return  this.ReservationModel.find({
+        "date": {
+          $gte: before,
+          $lte: after
+          }
+        })
+    }
+
     private async getUserFromReservationId(id): Promise<any>{
       return (await this.ReservationModel.findById(id).exec()).user;
     }
@@ -56,11 +65,14 @@ export class ReservationsService {
       let available = true;
       if(reservation.date)
          available = await this.dateIsAvailable(reservation.date);
-      
-      //if(user != await this.getUserFromReservationId(reservation._id) ) {return "Not allowed";}
+
+
+      if(user.toString() !== (await this.getUserFromReservationId(reservation._id)).toString() ) {return "Not allowed";}
       const toModify = await this.ReservationModel.findById(reservation._id);
       let done = null;
-      if (await this.dateIsAvailable(reservation.date) || (toModify.date == reservation.date) ){
+      
+      // toModify.date === reservation.date NOT WORKING SMH
+      if (await this.dateIsAvailable(reservation.date) || (toModify.date === reservation.date) ){
          done = await this.ReservationModel.findOneAndUpdate({ _id : reservation._id}, reservation).exec();
         if(done) return "Success";
       }
@@ -68,7 +80,9 @@ export class ReservationsService {
     }
 
     async getInterval(reservation_id: any, user: any): Promise<any>{
-    //if(user != await this.getUserFromReservationId(reservation_id) ) {return "Not allowed";}
+
+    //don't touch this
+    if(user.toString() !== (await this.getUserFromReservationId(reservation_id)).toString() ) {return "Not allowed";}
     const reservation = await this.ReservationModel.findById(reservation_id);
     var end = new Date(new Date(reservation.date.toString()).getTime() + reservation.duration*60000)
     
