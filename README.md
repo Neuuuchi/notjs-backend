@@ -230,6 +230,31 @@ POST /pfe
 }
 ```
 
+### Update PFE
+
+end point 
+
+```http
+Put /pfe/:pfe_id
+```
+
+| headers        | value              |
+| :------------- | :----------------- |
+| `Content-Type` | `application/json` |
+
+ body example
+
+
+```json
+{
+    "title":"5fe500a29998225f224d9d96",  
+    "fileUrl":"600b1d088acf98de11babb5d",
+
+}
+```
+
+### 
+
 ### Get All PFE
 
 end point 
@@ -259,7 +284,7 @@ GET /pfe
 end point 
 
 ```http
-GET /pfe/:pfe_id/tag/:tag_id
+PUT /pfe/:pfe_id/tag/:tag_id
 ```
 
  Response example
@@ -278,9 +303,28 @@ GET /pfe/:pfe_id/tag/:tag_id
 }
 ```
 
-### 
+### Assign Supervisor
+
+end point 
+
+```http
+PUT /pfe/:pfe_id/supervisor/:supervisor_id
+```
+
+ 
+
+### Update Status
+
+end point 
+
+```http
+PUT /pfe/:pfe_id/status/:status
+```
+
+ 
 
 # Reservations
+
 ``url/reservations``
 
 ### get all reservations
@@ -342,11 +386,7 @@ json
     "subject": "600b26f04314b5e1bc0c773a" // optional
 }
 ```
-return:
- "Success"
- or
- "Failed"
-------------
+return:`Success` or `Failed`
 
 ### Delete reservation
 ```http
