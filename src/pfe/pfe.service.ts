@@ -45,6 +45,7 @@ export class PfeService {
     pfe.fileUrl = body.fileUrl ? body.fileUrl : pfe.fileUrl;
     pfe.session = body.session ? body.session : pfe.session;
     pfe.status = body.status ? body.status : pfe.status;
+    pfe.supervisor = body.supervisor ? body.supervisor : pfe.supervisor;
 
     await pfe.save();
 

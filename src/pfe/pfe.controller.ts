@@ -35,7 +35,26 @@ export class PfeController {
   }
   @Put(':id')
   async update(@Param('id') id: string, @Body() body): Promise<Pfe> {
+    body.supervisor = null;
+    body.status = null;
+    body.season = null;
     return this.pfeService.updatePfe(id, body);
+  }
+
+  @Put(':pid/supervisor/:sid')
+  async assignSupervisor(
+    @Param('pid') pid: string,
+    @Param('sid') sid: string,
+  ): Promise<Pfe> {
+    return this.pfeService.updatePfe(pid, { supervisor: sid });
+  }
+
+  @Put(':pid/status/:status')
+  async updateStatus(
+    @Param('pid') pid: string,
+    @Param('status') status: string,
+  ): Promise<Pfe> {
+    return this.pfeService.updatePfe(pid, { status: status });
   }
 
   @Put(':id/tag/:tag')
