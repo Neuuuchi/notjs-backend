@@ -280,9 +280,91 @@ GET /pfe/:pfe_id/tag/:tag_id
 
 ### 
 
+# Reservations
+``url/reservations``
+
+### get all reservations
+```http
+GET /reservations/all
+```
+return a list of all reservations in the following format
+[
+{
+        "_id": "6012dab1b6c85941d6eb0c0c",
+        "duration": 30,
+        "date": "2008-11-11T09:39:00.000Z",
+        "subject": "600b26f04314b5e1bc0c773a
+    },
+    ...
+]
+
+### get my reservations
+```http
+GET /reservations
+```
+return a list of the reservations made by the current user.
+(same format as '/all')
+
+
+### Create a new reservation:
+```http
+POST reservations
+```
+expected body of json request:
+{
+    "duration": 30,
+    "date": "2009-11-11T09:39:00.000+00:00",
+    "subject": "600b26f04314b5e1bc0c773a"
+}
+The user sending the request will be added to the reservation.
+return:
+"date reserved for duration for user"
+or
+"A reservation was already made for this date" 
+
 ------
 
+### Update reservation 
+```http
+PUT reservations
+```
+expected body of json request:
+{
+    "_id": "6012e1fb6f244e4901d15032", // mandatory
+    "duration": 30, // optional
+    "date": "2009-11-11T09:39:00.000+00:00", // optional
+    "subject": "600b26f04314b5e1bc0c773a" // optional
+}
 
+return:
+ "Success"
+ or
+ "Failed"
+------------
+
+### Delete reservation
+```http
+DELETE reservations
+```
+expected body of json request:
+{
+ "_id": "6012e1fb6f244e4901d15032"
+}
+The user must own the reservations to be delete.
+------------------
+# Get all reservations before / after a certain date:
+```
+http
+GET reservations/date
+```
+{
+ "before": "2018-11-11T00:00:00.000Z",
+ "after": "2020-11-11T00:00:00.000Z"
+}
+
+
+return :
+list of all reservations between those dates.
 
 Api returns the following status codes in its API:
 
