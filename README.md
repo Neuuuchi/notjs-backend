@@ -332,6 +332,8 @@ PUT /pfe/:pfe_id/status/:status
 GET /reservations/all
 ```
 return a list of all reservations in the following format
+```
+json
 [
 {
         "_id": "6012dab1b6c85941d6eb0c0c",
@@ -341,6 +343,7 @@ return a list of all reservations in the following format
     },
     ...
 ]
+```
 
 ### get my reservations
 ```http
