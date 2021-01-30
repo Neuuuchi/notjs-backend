@@ -70,11 +70,11 @@ export class ReservationsService {
       if(user.toString() !== (await this.getUserFromReservationId(reservation._id)).toString() ) {return "Not allowed";}
       const toModify = await this.ReservationModel.findById(reservation._id);
       let done = null;
-      
+   
       // toModify.date === reservation.date NOT WORKING SMH
-      if (await this.dateIsAvailable(reservation.date) || (toModify.date === reservation.date) ){
+      if (await this.dateIsAvailable(reservation.date) || (toModify.date.toISOString() == reservation.date.toString() ) ){
          done = await this.ReservationModel.findOneAndUpdate({ _id : reservation._id}, reservation).exec();
-        if(done) return "Success";
+        if (done) return "Success";
       }
       return "Failed";    
     }
@@ -83,8 +83,8 @@ export class ReservationsService {
 
     //don't touch this
     if(user.toString() !== (await this.getUserFromReservationId(reservation_id)).toString() ) {return "Not allowed";}
-    const reservation = await this.ReservationModel.findById(reservation_id);
-    var end = new Date(new Date(reservation.date.toString()).getTime() + reservation.duration*60000)
+    const reservation = await this.ReservationModel.findById(reservation_id).exec();
+    var end = new Date(new Date(reservation.date).getTime() + reservation.duration*60000)
     
     return {
         "start" : reservation.date,
