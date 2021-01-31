@@ -303,6 +303,48 @@ PUT /pfe/:pfe_id/tag/:tag_id
 }
 ```
 
+### Search PFE by tag:
+end point
+```http
+GET /pfe/search
+```
+
+Expected input:
+body:
+```
+json
+{
+  "tags": [
+      "a","b"  // list of the ids of the tags to be used in search
+      ]
+}
+```
+
+Return:
+List of the PFEs containing the mentionned tags.
+```
+json
+[
+    {
+        ...
+        "tags": [
+            "a"
+        ],
+        ...
+    },
+    {
+        ...
+        "tags": [
+            "a", "b"
+        ],
+        ...
+    }
+    
+]
+
+```
+
+
 ### Assign Supervisor
 
 end point 
