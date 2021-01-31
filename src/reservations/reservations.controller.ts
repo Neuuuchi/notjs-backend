@@ -64,6 +64,8 @@ async create(@Body() createDto: CreateReservationDto, @Req() request: Request): 
 
     return this.reservationsService.removeReservation(reservation, request.user);
 }
+
+@UseGuards(AuthGuard('jwt'))
 @Get('interval')
     async interval(@Body() reservation: any, @Req() request: Request): Promise<any>{       
         return this.reservationsService.getInterval(reservation._id, request.user)
