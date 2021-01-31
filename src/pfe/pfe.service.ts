@@ -8,6 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import { ObjectID } from 'bson';
 import { TagService } from 'src/tag/tag.service';
 import { Tag } from 'src/tag/schemas/tag.schema';
+import { query } from 'express';
 
 @Injectable()
 export class PfeService {
@@ -65,4 +66,23 @@ export class PfeService {
     await pfe.save();
     if (pfe) return pfe;
   }
+
+  async search(
+    tags: MongooseSchema.Types.ObjectId[]
+  ): Promise<any>{
+    // let tags = []
+    // for (let tagName of tagNames ){
+    //   const tag = this.tagService.findIdByName(tagName);
+    //   tags.push(tag);
+    // }
+    
+    return this.pfeModel.find({
+      "tags": {
+        $in: tags
+      }
+    }).exec()
+
+  }
+
+
 }

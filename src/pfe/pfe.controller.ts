@@ -29,10 +29,21 @@ export class PfeController {
     const result = await this.pfeService.getAll();
     return result;
   }
+
+  @Get('search')
+  async searchPfeByTag(@Body() body): Promise<any> {
+    if(body.tags)
+      return this.pfeService.search(body.tags);
+    else
+      return "Bad request."
+  }
+
   @Get(':id')
   async get(@Param('id') id: string): Promise<Pfe> {
     return this.pfeService.getPfe(id);
   }
+
+
   @Put(':id')
   async update(@Param('id') id: string, @Body() body): Promise<Pfe> {
     body.supervisor = null;
@@ -65,4 +76,6 @@ export class PfeController {
     const result = await this.pfeService.addTag(pfe, tag);
     return result;
   }
+
+
 }
