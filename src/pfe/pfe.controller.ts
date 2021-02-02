@@ -34,8 +34,7 @@ export class PfeController {
   async searchPfeByTag(@Body() body): Promise<any> {
     if(body.tags)
       return this.pfeService.search(body.tags);
-    else
-      return "Bad request."
+    return null
   }
 
   @Get(':id')

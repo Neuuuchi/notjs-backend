@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';import { InjectModel } from '@nestjs/mongoose';
 import { Reservation, ReservationDocument } from './schemas/reservations.schema';
 import { CreateReservationDto } from './dto/create-reservation.dto';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
 export class ReservationsService {
-    constructor(@InjectModel(Reservation.name) private ReservationModel: Model<ReservationDocument>) {}
+    constructor(@InjectModel(Reservation.name) private ReservationModel: Model<ReservationDocument>,
+    private readonly userService: UsersService ) {}
 
     async findOne(params): Promise<Reservation>{
         return this.ReservationModel.findOne(params)
@@ -21,14 +23,23 @@ export class ReservationsService {
       const available = await this.dateIsAvailable(createReservationDto.date);
         if(available){
         let createdReservation = new this.ReservationModel(createReservationDto);
-        if(user)
-          createdReservation.user = user
+        
+        const userModel = await this.userService.find(user);
+        // if (!student) throw new NotFoundException('Student not found');
+        if(userModel)
+          createdReservation.user = userModel
 
         createdReservation.save()
         //await (await this.ReservationModel.findOneAndUpdate({_id: createdReservation._id}, {user: user} ).exec()).save();
-        return createdReservation;
+        
+        return {
+          "duration": createdReservation.duration,
+          "date": createdReservation.date,
+          "subject": createdReservation.subject,
+          "user": userModel.name
+        }
+        
       }
-      return -1;
     }
 
     async findAllFromDate(before: Date,after: Date): Promise<any>{
