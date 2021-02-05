@@ -278,7 +278,36 @@ GET /pfe
     },
 ]
 ```
+### Get PFE By Session
 
+end point 
+
+```http
+GET /pfe/session
+```
+body example
+```json
+
+    {
+        "session": "600b1d088acf98de11babb5d"
+    }
+```
+
+ Response example
+
+
+```json
+[
+    {
+        "status": 0,
+        "tags": [],
+        "_id": "600b26f04314b5e1bc0c773a",
+        "student": "5fe500a29998225f224d9d96",
+        "session": "600b1d088acf98de11babb5d",
+        "__v": 0
+    },
+]
+```
 ### Add Tag to PFE
 
 end point 
