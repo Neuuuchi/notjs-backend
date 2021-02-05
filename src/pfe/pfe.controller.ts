@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { stringify } from 'qs';
 import { CreatePfeDto } from './dto/create-pfe.dto';
+import { FilterSessionPfeDto } from './dto/FilterSessionPfeDto';
 import { PfeService } from './pfe.service';
 import { Pfe } from './schemas/pfe.schema';
 import mongoose, { Model, Mongoose, Schema as MongooseSchema } from 'mongoose';
@@ -29,7 +30,11 @@ export class PfeController {
     const result = await this.pfeService.getAll();
     return result;
   }
-
+  @Get('session')
+  async getPfeBySession(@Body() filterSessionDto: FilterSessionPfeDto): Promise<Pfe[]> {
+    const result = await this.pfeService.getpfesBySession(filterSessionDto);
+    return result;
+  }
   @Get('search')
   async searchPfeByTag(@Body() body): Promise<any> {
     if(body.tags)
