@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePfeDto } from './dto/create-pfe.dto';
 import { Pfe, PfeDocument } from './schemas/pfe.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, Mongoose, Schema as MongooseSchema } from 'mongoose';
+import mongoose, { Model, Mongoose, Schema, Schema as MongooseSchema } from 'mongoose';
 import { PfeSessionService } from 'src/pfe-session/pfe-session.service';
 import { UsersService } from 'src/users/users.service';
 import { ObjectID } from 'bson';
 import { TagService } from 'src/tag/tag.service';
 import { Tag } from 'src/tag/schemas/tag.schema';
 import { query } from 'express';
-
+var ObjectId = require('mongoose').Types.ObjectId;
 @Injectable()
 export class PfeService {
   constructor(
@@ -34,7 +34,12 @@ export class PfeService {
   async getAll(): Promise<Pfe[]> {
     return this.pfeModel.find().exec();
   }
-
+  async getpfesBySession(body: any): Promise<Pfe[]> {
+    const sessionId = new ObjectId(body.session);
+    return this.pfeModel.find({
+      session: sessionId
+    }).exec();
+  }
   async getPfe(pfeId: any): Promise<Pfe> {
     return this.pfeModel.findById(pfeId);
   }
