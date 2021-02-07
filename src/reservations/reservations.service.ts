@@ -55,8 +55,49 @@ export class ReservationsService {
       return (await this.ReservationModel.findById(id).exec()).user;
     }
 
+/*
+    const stages = [
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        { $unwind: '$user' },
+        {
+          $project: {
+            dob: '$user.profile.dob',
+          },
+        },
+      ];
+
+*/
+
     async findAll(): Promise<Reservation[]> {
-      return this.ReservationModel.find().exec();
+      const stages = [
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        { $unwind: '$user' },
+        {
+          $project: {
+            name: '$user.name',
+            duration: '$duration',
+            date: '$date',
+            _id: '$_id'
+          },
+        },
+      ];
+      return await this.ReservationModel.aggregate(stages);
+
+      
     }
 
     async findAllFromUser(user): Promise<Reservation[]>{
