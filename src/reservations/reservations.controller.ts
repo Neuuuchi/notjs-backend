@@ -26,12 +26,9 @@ async me(@Req() request: Request): Promise<any>{
 @Post()
 async create(@Body() createDto: CreateReservationDto, @Req() request: Request): Promise<any> {
     const userId = request.user;
-    const result = await this.reservationsService.create(createDto, userId);
+    return await this.reservationsService.create(createDto, userId);
     
-    if(result){
-        return (await result).date + ' reserved for '+ (await result).duration +" user: "+(await result).user;
-    }
-    return "A reservation was already made for this date" ;
+    
 }
 
 @Get('/date')
